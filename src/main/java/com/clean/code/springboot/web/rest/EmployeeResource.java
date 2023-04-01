@@ -1,11 +1,13 @@
 package com.clean.code.springboot.web.rest;
 
 import com.clean.code.springboot.domain.Employee;
+import com.clean.code.springboot.security.SecurityUtils;
 import com.clean.code.springboot.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -32,6 +34,7 @@ public class EmployeeResource {
     }
     @GetMapping("/employees/{firstName}")
     public ResponseEntity getAll(@PathVariable String firstName){
+        Optional<String> optional = SecurityUtils.getCurrentUserName();
         List<Employee> employeeList = employeeService.findByFirstName(firstName);
         return ResponseEntity.ok(employeeList);
     }
